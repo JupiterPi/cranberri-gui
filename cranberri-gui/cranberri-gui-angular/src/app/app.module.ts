@@ -8,6 +8,7 @@ import { ProjectsComponent } from './ui/projects/projects.component';
 import {RouterModule} from "@angular/router";
 import { SettingsComponent } from './ui/settings/settings.component';
 import { MainComponent } from './ui/main/main.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MainComponent } from './ui/main/main.component';
       RouterModule.forRoot([
         { path: "", component: MainComponent },
         { path: "settings", component: SettingsComponent },
-      ])
+      ]),
+      HttpClientModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

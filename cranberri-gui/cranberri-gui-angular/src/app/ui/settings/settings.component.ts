@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {UpdateInfo} from "../../api";
-import {UpdateService} from "../../update.service";
+import {NeedsUpdateInfo, UpdateService} from "../../update.service";
 
 export function openSettings() {
   api.openWindow("settings", 500, 500, true);
@@ -16,9 +16,7 @@ export class SettingsComponent {
   updateInfo?: UpdateInfo;
 
   currentVersions?: UpdateInfo;
-  updateCranberriGui = false;
-  updatePaper = false;
-  updatePlugin = false;
+  needsUpdate?: NeedsUpdateInfo;
 
   installLoading = false;
 
@@ -27,10 +25,10 @@ export class SettingsComponent {
       this.isInstalled = await api.isInstalled();
       this.updateInfo = await api.getUpdateInfo();
 
-      this.currentVersions = updateService.currentVersions;
-      this.updateCranberriGui = this.updateInfo.cranberriGuiVersion != this.currentVersions.cranberriGuiVersion;
-      this.updatePaper = this.updateInfo.paperVersion != this.currentVersions.paperVersion;
-      this.updatePlugin = this.updateInfo.pluginVersion != this.currentVersions.pluginVersion;
+      updateService.getCurrentVersions().subscribe(currentVersions => {
+        this.currentVersions = currentVersions;
+        this.needsUpdate = updateService.needsUpdate(this.updateInfo!!, currentVersions);
+      });
     })();
   }
 

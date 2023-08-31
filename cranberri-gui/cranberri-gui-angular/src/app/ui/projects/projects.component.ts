@@ -44,7 +44,6 @@ export class ProjectsComponent {
 
   openProjectFolder() {
     if (this.projectSelectedName == null) return;
-    console.log(this.projectSelectedName);
     api.openProjectFolder(this.projectSelectedName);
   }
 }

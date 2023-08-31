@@ -3,6 +3,7 @@
 $clr-background: #151515;
 $clr-primary: #2873ff;
 $clr-text: #c7cbd9;
+$clr-muted: rgba($clr-text, 0.5);
 $clr-border: #5d5d5d;
 $clr-background-highlight: rgba($clr-border, 0.1);
 $clr-ok: #00a621;
@@ -54,7 +55,7 @@ button.button {
 
   transition: color 200ms;
   &:disabled {
-    color: rgba($clr-text, 0.5);
+    color: $clr-muted;
   }
 
   &.primary-button, &.warn-button {
@@ -115,4 +116,8 @@ span {
 a {
   color: $clr-primary;
   text-decoration: none;
+}
+
+.muted {
+  color: $clr-muted;
 }
