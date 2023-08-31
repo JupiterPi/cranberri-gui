@@ -3,7 +3,7 @@ import {UpdateInfo} from "../../api";
 import {NeedsUpdateInfo, UpdateService} from "../../update.service";
 
 export function openSettings() {
-  api.openWindow("settings", 500, 500, true);
+  api.openWindow("settings", 500, 560, true);
 }
 
 @Component({
