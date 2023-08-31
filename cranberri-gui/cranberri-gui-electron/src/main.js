@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron")
+const { app, BrowserWindow, ipcMain, shell } = require("electron")
 
 const api = require("./api")
 const path = require("path");
@@ -21,6 +21,11 @@ const createWindow = (route, width, height, resizable) => {
     else win.loadFile("dist/cranberri-gui-angular/index.html") //TODO ...
 
     win.setTitle("Cranberri")
+
+    win.webContents.setWindowOpenHandler(({ url }) => {
+        shell.openExternal(url)
+        return { action: 'deny' }
+    })
 }
 const createMainWindow = () => { createWindow(null, 740, 370, false) }
 
