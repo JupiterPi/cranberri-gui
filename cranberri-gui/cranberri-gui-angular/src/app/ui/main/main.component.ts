@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {UpdateService} from "../../update.service";
+import {nonnull} from "../../util";
 
 @Component({
   selector: 'app-main',
@@ -6,11 +8,7 @@ import {Component} from '@angular/core';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
-  isInstalled = false;
+  isInstalled$ = nonnull(this.updateService.isInstalled$);
 
-  constructor() {
-    (async () => {
-      this.isInstalled = await api.isInstalled();
-    })();
-  }
+  constructor(private updateService: UpdateService) {}
 }

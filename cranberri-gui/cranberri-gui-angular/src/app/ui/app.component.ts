@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {openSettings} from "./settings/settings.component";
 import {UpdateService} from "../update.service";
+import {nonnull} from "../util";
 
 @Component({
   selector: 'app-root',
@@ -11,21 +12,24 @@ import {UpdateService} from "../update.service";
 export class AppComponent {
   route?: string;
 
-  isInstalled = false;
-  updateAvailable = false;
+  isInstalled?: boolean;
+  updateAvailable?: boolean;
 
-  constructor(router: Router, updateService: UpdateService) {
-    this.updateAvailable = updateService.updateAvailable;
+  constructor(router: Router, private updateService: UpdateService, changeDetector: ChangeDetectorRef) {
+    nonnull(updateService.isInstalled$).subscribe(it => {
+      this.isInstalled = it;
+      changeDetector.detectChanges();
+    });
+    nonnull(updateService.updateAvailable$).subscribe(it => {
+      this.updateAvailable = it;
+      changeDetector.detectChanges();
+    });
 
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.route = event.url;
       }
     });
-
-    (async () => {
-      this.isInstalled = await api.isInstalled();
-    })();
   }
 
   close() {

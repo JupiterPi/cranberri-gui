@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {UpdateInfo} from "../../api";
 import {NeedsUpdateInfo, UpdateService} from "../../update.service";
+import {get, nonnull} from "../../util";
 
 export function openSettings() {
   api.openWindow("settings", 500, 560, true);
@@ -20,23 +21,22 @@ export class SettingsComponent {
 
   installLoading = false;
 
-  constructor(updateService: UpdateService) {
-    (async () => {
-      this.isInstalled = await api.isInstalled();
-      this.updateInfo = await api.getUpdateInfo();
+  constructor(private updateService: UpdateService) {
+    nonnull(updateService.isInstalled$).subscribe(isInstalled => this.isInstalled = isInstalled);
+    nonnull(updateService.updateInfo$).subscribe(updateInfo => this.updateInfo = updateInfo);
 
-      updateService.getCurrentVersions().subscribe(currentVersions => {
-        this.currentVersions = currentVersions;
-        this.needsUpdate = updateService.needsUpdate(this.updateInfo!!, currentVersions);
+    nonnull(updateService.currentVersions$).subscribe(currentVersions => {
+      this.currentVersions = currentVersions;
+      get(updateService.updateInfo$).subscribe(updateInfo => {
+        this.needsUpdate = updateService.needsUpdate(updateInfo, currentVersions);
       });
-    })();
+    });
   }
 
   install() {
     this.installLoading = true;
     api.install().then(() => {
       this.installLoading = false;
-      api.isInstalled().then(isInstalled => this.isInstalled = isInstalled);
     });
   }
 }

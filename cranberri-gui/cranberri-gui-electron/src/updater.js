@@ -1,8 +1,9 @@
 const fs = require("fs")
 const https = require("https")
 const {SERVER_ROOT, WORLDS_REGISTRY, PROJECTS_ROOT, ARCHIVED_WORLDS_DIR, PLUGIN_ROOT} = require("./paths")
+const apiOut = require("./api-out")
 
-function isInstalled() {
+function getIsInstalled() {
     return fs.existsSync(`${SERVER_ROOT}/paper-1.19.4-550.jar`)
 }
 
@@ -11,6 +12,12 @@ async function install() {
     installPlugin()
     fs.writeFileSync(`${SERVER_ROOT}/eula.txt`, "eula=true\n")
     setup()
+
+    const isInstalled = getIsInstalled()
+    apiOut.handleIsInstalled(isInstalled);
+    if (isInstalled) {
+        apiOut.handleUpdateInfo(getUpdateInfo());
+    }
 }
 
 function setup() {
@@ -23,7 +30,7 @@ function setup() {
     fs.mkdirSync(PROJECTS_ROOT, { recursive: true })
     fs.mkdirSync(ARCHIVED_WORLDS_DIR, { recursive: true })
 }
-if (isInstalled()) setup()
+if (getIsInstalled()) setup()
 
 function installPaper() {
     return new Promise((resolve, _) => {
@@ -41,7 +48,9 @@ function installPaper() {
 }
 
 function installPlugin() {
-    //TODO implement
+    //TODO tmp!
+    fs.mkdirSync(PLUGIN_ROOT);
+    fs.writeFileSync(`${PLUGIN_ROOT}/cranberri-server-plugin-v0.0.2.jar`, "mocked");
 }
 
 function getUpdateInfo() {
@@ -59,7 +68,7 @@ function getUpdateInfo() {
 }
 
 module.exports = {
-    isInstalled,
-    install,
+    getIsInstalled,
     getUpdateInfo,
+    install,
 }

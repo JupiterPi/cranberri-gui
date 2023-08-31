@@ -22,16 +22,16 @@
       </div>
       <div>
         Paper:
-        <span [class]="needsUpdate?.updatePaper ? 'warn' : 'ok'">{{updateInfo?.paperVersion}}</span>
+        <span [class]="needsUpdate?.paper ? 'warn' : 'ok'">{{updateInfo?.paperVersion}}</span>
         <span *ngIf="updateInfo?.paperVersion != currentVersions?.paperVersion" class="muted"> ({{currentVersions?.paperVersion}})</span>
-        <ng-container *ngIf="needsUpdate?.updatePaper">
+        <ng-container *ngIf="needsUpdate?.paper">
           -> {{currentVersions?.paperVersion}}
         </ng-container>
       </div>
       <div>
         Cranberri Server Plugin:
-        <span [class]="needsUpdate?.updatePlugin ? 'warn' : 'ok'">{{updateInfo?.pluginVersion}}</span>
-        <ng-container *ngIf="needsUpdate?.updatePlugin">
+        <span [class]="needsUpdate?.plugin ? 'warn' : 'ok'">{{updateInfo?.pluginVersion}}</span>
+        <ng-container *ngIf="needsUpdate?.plugin">
           -> {{currentVersions?.pluginVersion}}
         </ng-container>
       </div>
@@ -43,13 +43,13 @@
       and download the bundle under the latest release's assets.
       Replace the current installation and restart Cranberri to apply changes.
     </p>
-    <p *ngIf="needsUpdate?.updatePaper">
+    <p *ngIf="needsUpdate?.paper">
       To update Paper:
       Visit <a target="_blank" href="https://papermc.io/downloads/paper">PaperMC -> Downloads</a>
       or <a target="_blank" href="https://papermc.io/downloads/all">-> Build Explorer</a>
       and locate the required version. Replace the current file and restart Cranberri to apply changes.
     </p>
-    <p *ngIf="needsUpdate?.updatePlugin">
+    <p *ngIf="needsUpdate?.plugin">
       To update the Cranberri Server Plugin:
       Visit on GitHub <a target="_blank" href="https://github.com/JupiterPi/cranberri/releases/latest">JupiterPi/cranberri -> Releases</a>
       and download cranberri-server-plugin-v{{currentVersions?.pluginVersion}}.jar (or similar) under the latest release's assets.

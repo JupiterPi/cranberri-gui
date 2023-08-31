@@ -22,9 +22,13 @@ declare global {
     openWindow: (route: string | null, width: number, height: number, resizable: boolean) => Promise<void>,
     close: () => Promise<void>,
 
-    isInstalled: () => Promise<boolean>,
-    install: () => Promise<void>,
+    handleIsInstalled: (handler: (event: any, isInstalled: boolean) => void) => void,
+    handleUpdateInfo: (handler: (event: any, updateInfo: UpdateInfo) => void) => void,
+
+    getIsInstalled: () => Promise<boolean>,
     getUpdateInfo: () => Promise<UpdateInfo>,
+
+    install: () => Promise<void>,
     getWorlds: () => Promise<World[]>,
     getActiveWorldId: () => Promise<string>,
     renameWorld: (id: string, name: string) => Promise<World[]>,

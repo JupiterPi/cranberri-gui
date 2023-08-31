@@ -1,7 +1,7 @@
-<div id="sections-container" *ngIf="isInstalled">
+<div id="sections-container" *ngIf="isInstalled$ | async">
   <app-worlds></app-worlds>
   <app-projects></app-projects>
 </div>
-<div id="not-installed-container" *ngIf="!isInstalled">
+<div id="not-installed-container" *ngIf="!(isInstalled$ | async)">
   Installation not found.
 </div>

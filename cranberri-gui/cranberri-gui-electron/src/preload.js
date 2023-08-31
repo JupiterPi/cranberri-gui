@@ -3,10 +3,14 @@ const { contextBridge, ipcRenderer } = require("electron")
 contextBridge.exposeInMainWorld("api", {
     openWindow: (route, width, height, resizable) => ipcRenderer.invoke("openWindow", route, width, height, resizable),
     close: () => ipcRenderer.invoke("close"),
-    
-    isInstalled: () => ipcRenderer.invoke("api-isInstalled"),
-    install: () => ipcRenderer.invoke("api-install"),
+
+    handleIsInstalled: (handler) => ipcRenderer.on("api-handleIsInstalled", handler),
+    handleUpdateInfo: (handler) => ipcRenderer.on("api-handleUpdateInfo", handler),
+
+    getIsInstalled: () => ipcRenderer.invoke("api-getIsInstalled"),
     getUpdateInfo: () => ipcRenderer.invoke("api-getUpdateInfo"),
+
+    install: () => ipcRenderer.invoke("api-install"),
     getWorlds: () => ipcRenderer.invoke("api-getWorlds", "teste1", "teste2"),
     getActiveWorldId: () => ipcRenderer.invoke("api-getActiveWorldId"),
     renameWorld: (id, name) => ipcRenderer.invoke("api-renameWorld", id, name),
