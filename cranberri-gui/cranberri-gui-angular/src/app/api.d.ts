@@ -1,3 +1,9 @@
+export type UpdateInfo = {
+  cranberriGuiVersion: string,
+  paperVersion: string,
+  pluginVersion: string,
+}
+
 export type World = {
   id: string;
   name: string;
@@ -13,10 +19,12 @@ export type Project = {
 
 declare global {
   const api: {
-    test: () => Promise<string>,
+    openWindow: (route: string | null, width: number, height: number, resizable: boolean) => Promise<void>,
+    close: () => Promise<void>,
+
     isInstalled: () => Promise<boolean>,
-    updateAvailable: () => Promise<boolean>,
-    installOrUpdate: () => Promise<void>,
+    install: () => Promise<void>,
+    getUpdateInfo: () => Promise<UpdateInfo>,
     getWorlds: () => Promise<World[]>,
     getActiveWorldId: () => Promise<string>,
     renameWorld: (id: string, name: string) => Promise<World[]>,
@@ -26,7 +34,5 @@ declare global {
     openProjectFolder: (projectName: String) => Promise<void>,
     createProject: (name: string, language: string) => Promise<Project>,
     startServer: (worldId: string | null) => Promise<World>,
-
-    close: () => Promise<void>,
   }
 }

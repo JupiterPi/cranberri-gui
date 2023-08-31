@@ -5,6 +5,7 @@ $clr-primary: #2873ff;
 $clr-text: #c7cbd9;
 $clr-border: #5d5d5d;
 $clr-background-highlight: rgba($clr-border, 0.1);
+$clr-ok: #00a621;
 $clr-warn: #cc3e3e;
 
 body {
@@ -20,8 +21,13 @@ body, button, input {
   font-family: 'Inter', sans-serif;
 }
 
-h1 {
-  font-weight: 300;
+h1, h2 {
+  font-weight: normal;
+  font-size: 120%;
+  margin: 20px 0 10px 0;
+  &:first-child {
+    margin-top: 10px;
+  }
 }
 
 @mixin highlightOnHover {
@@ -95,4 +101,18 @@ input.rename-input {
 
 ::-webkit-scrollbar {
   width: 0;
+}
+
+span {
+  &.ok {
+    color: $clr-ok;
+  }
+  &.warn {
+    color: $clr-warn;
+  }
+}
+
+a {
+  color: $clr-primary;
+  text-decoration: none;
 }

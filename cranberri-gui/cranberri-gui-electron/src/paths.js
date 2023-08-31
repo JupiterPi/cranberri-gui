@@ -2,6 +2,7 @@ const SERVER_ROOT = "server"
 
 module.exports = {
     SERVER_ROOT,
+    PLUGIN_ROOT: `${SERVER_ROOT}/plugins`,
 
     WORLDS_REGISTRY: `${SERVER_ROOT}/worlds.json`,
     WORLDS_DIR: `${SERVER_ROOT}/worlds`,

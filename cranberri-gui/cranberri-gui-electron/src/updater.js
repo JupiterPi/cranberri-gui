@@ -1,6 +1,6 @@
 const fs = require("fs")
 const https = require("https")
-const {SERVER_ROOT, WORLDS_REGISTRY, PROJECTS_ROOT, ARCHIVED_WORLDS_DIR} = require("./paths")
+const {SERVER_ROOT, WORLDS_REGISTRY, PROJECTS_ROOT, ARCHIVED_WORLDS_DIR, PLUGIN_ROOT} = require("./paths")
 
 function isInstalled() {
     return fs.existsSync(`${SERVER_ROOT}/paper-1.19.4-550.jar`)
@@ -44,8 +44,22 @@ function installPlugin() {
     //TODO implement
 }
 
+function getUpdateInfo() {
+    const cranberriGuiVersion = "0.0.0" //TODO ...
+
+    const paperFiles = fs.readdirSync(SERVER_ROOT).filter(file => /^paper-.+\.jar$/.test(file))
+    if (paperFiles.length !== 1) console.error("Invalid paperFiles:", paperFiles)
+    const paperVersion = /^paper-(.+)\.jar$/.exec(paperFiles[0])[1]
+
+    const pluginFiles = fs.readdirSync(PLUGIN_ROOT).filter(file => /^cranberri-server-plugin-v.+\.jar$/.test(file))
+    if (pluginFiles.length !== 1) console.error("Invalid pluginFiles:", pluginFiles)
+    const pluginVersion = /^cranberri-server-plugin-v(.+)\.jar$/.exec(pluginFiles[0])[1]
+
+    return { cranberriGuiVersion, paperVersion, pluginVersion }
+}
+
 module.exports = {
     isInstalled,
-    updateAvailable: () => false,
-    installOrUpdate: install,
+    install,
+    getUpdateInfo,
 }

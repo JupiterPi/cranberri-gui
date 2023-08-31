@@ -6,20 +6,15 @@
       <div id="title">Cranberri</div>
     </div>
     <div>
-      <button class="button warn-button" (click)="installOrUpdate()" *ngIf="!isInstalled || updateAvailable">
-        {{ !isInstalled ? "Install" : "Update" }}
-        <span class="loader" *ngIf="installOrUpdateLoading"></span>
+      <button class="button" [class.warn-button]="!isInstalled || updateAvailable" (click)="openSettings()" *ngIf="route == '/'">
+        Settings<ng-container *ngIf="!isInstalled || updateAvailable">: {{!isInstalled ? "Install" : "Update"}}</ng-container>
       </button>
       <button class="button primary-button" (click)="close()">Done</button>
     </div>
   </div>
 
-  <div id="sections-container" *ngIf="isInstalled">
-    <app-worlds></app-worlds>
-    <app-projects></app-projects>
-  </div>
-  <div id="not-installed-container" *ngIf="!isInstalled">
-    Installation not found.
+  <div id="content-container">
+    <router-outlet></router-outlet>
   </div>
 
 </div>

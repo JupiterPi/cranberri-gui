@@ -1,40 +1,45 @@
 const { app, BrowserWindow, ipcMain } = require("electron")
-const isDev = require('electron-is-dev')
-const path = require("path")
 
 const api = require("./api")
+const path = require("path");
+const isDev = require("electron-is-dev");
 
-const createWindow = () => {
+const createWindow = (route, width, height, resizable) => {
     const win = new BrowserWindow({
         title: "Cranberri",
         frame: false,
-        width: 740,
-        height: 370,
-        resizable: false,
+        width: width,
+        height: height,
+        resizable: resizable,
         webPreferences: {
             preload: path.join(__dirname, "preload.js")
         },
     })
 
-    if (isDev) win.loadURL("http://localhost:4200")
-    else win.loadFile("dist/cranberri-gui-angular/index.html")
+    const appendPath = route ? `/${route}` : ""
+    if (isDev) win.loadURL(`http://localhost:4200${appendPath}`)
+    else win.loadFile("dist/cranberri-gui-angular/index.html") //TODO ...
 
     win.setTitle("Cranberri")
 }
+const createMainWindow = () => { createWindow(null, 740, 370, false) }
 
 app.whenReady().then(() => {
     for (const [funName, fun] of Object.entries(api)) {
         ipcMain.handle(`api-${funName}`, (_, ...args) => fun(...args))
     }
 
+    ipcMain.handle("openWindow", (_, route, width, height, resizable) => {
+        createWindow(route, width, height, resizable)
+    })
     ipcMain.handle("close", () => {
         app.quit()
     })
 
-    createWindow()
+    createMainWindow()
 
     app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
+        if (BrowserWindow.getAllWindows().length === 0) createMainWindow()
     })
 })
 

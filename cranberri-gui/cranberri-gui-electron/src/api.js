@@ -21,10 +21,9 @@ function writeWorlds(worlds) {
 }
 
 module.exports = {
-    test: () => "Hello there.",
     isInstalled: () => updater.isInstalled(),
-    updateAvailable: () => updater.updateAvailable(),
-    installOrUpdate: async () => await updater.installOrUpdate(),
+    install: async () => await updater.install(),
+    getUpdateInfo: () => updater.getUpdateInfo(),
     getWorlds: () => readWorlds()["worlds"],
     getActiveWorldId: () => readWorlds()["activeWorldId"],
     renameWorld: (id, name) => {

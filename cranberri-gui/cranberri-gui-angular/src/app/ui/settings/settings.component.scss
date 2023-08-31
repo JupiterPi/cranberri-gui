@@ -1,0 +1,31 @@
+@import "../../../styles.scss";
+
+#container {
+  padding: 10px;
+}
+
+// https://cssloaders.github.io/
+.loader {
+  width: 10px;
+  height: 10px;
+  border: 2px solid rgba($clr-background, 0.8);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

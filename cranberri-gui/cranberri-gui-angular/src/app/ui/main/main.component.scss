@@ -1,0 +1,13 @@
+@import "../../../styles.scss";
+
+#sections-container {
+  display: flex;
+}
+
+#not-installed-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: $clr-text;
+}

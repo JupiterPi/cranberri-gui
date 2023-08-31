@@ -5,16 +5,25 @@ import { AppComponent } from './ui/app.component';
 import {FormsModule} from "@angular/forms";
 import { WorldsComponent } from './ui/worlds/worlds.component';
 import { ProjectsComponent } from './ui/projects/projects.component';
+import {RouterModule} from "@angular/router";
+import { SettingsComponent } from './ui/settings/settings.component';
+import { MainComponent } from './ui/main/main.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WorldsComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    SettingsComponent,
+    MainComponent
   ],
     imports: [
-        BrowserModule,
-        FormsModule
+      BrowserModule,
+      FormsModule,
+      RouterModule.forRoot([
+        { path: "", component: MainComponent },
+        { path: "settings", component: SettingsComponent },
+      ])
     ],
   providers: [],
   bootstrap: [AppComponent]

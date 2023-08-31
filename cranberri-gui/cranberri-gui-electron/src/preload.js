@@ -1,10 +1,12 @@
 const { contextBridge, ipcRenderer } = require("electron")
 
 contextBridge.exposeInMainWorld("api", {
-    test: () => ipcRenderer.invoke("api-test"),
+    openWindow: (route, width, height, resizable) => ipcRenderer.invoke("openWindow", route, width, height, resizable),
+    close: () => ipcRenderer.invoke("close"),
+    
     isInstalled: () => ipcRenderer.invoke("api-isInstalled"),
-    updateAvailable: () => ipcRenderer.invoke("api-updateAvailable"),
-    installOrUpdate: () => ipcRenderer.invoke("api-installOrUpdate"),
+    install: () => ipcRenderer.invoke("api-install"),
+    getUpdateInfo: () => ipcRenderer.invoke("api-getUpdateInfo"),
     getWorlds: () => ipcRenderer.invoke("api-getWorlds", "teste1", "teste2"),
     getActiveWorldId: () => ipcRenderer.invoke("api-getActiveWorldId"),
     renameWorld: (id, name) => ipcRenderer.invoke("api-renameWorld", id, name),
@@ -14,6 +16,4 @@ contextBridge.exposeInMainWorld("api", {
     openProjectFolder: (projectName) => ipcRenderer.invoke("api-openProjectFolder", projectName),
     createProject: (name, language) => ipcRenderer.invoke("api-createProject", name, language),
     startServer: (worldId) => ipcRenderer.invoke("api-startServer", worldId),
-
-    close: () => ipcRenderer.invoke("close"),
 })

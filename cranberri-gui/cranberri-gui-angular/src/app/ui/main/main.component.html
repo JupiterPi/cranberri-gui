@@ -1,0 +1,7 @@
+<div id="sections-container" *ngIf="isInstalled">
+  <app-worlds></app-worlds>
+  <app-projects></app-projects>
+</div>
+<div id="not-installed-container" *ngIf="!isInstalled">
+  Installation not found.
+</div>
