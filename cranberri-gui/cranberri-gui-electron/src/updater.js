@@ -76,7 +76,9 @@ function downloadFile(url, file) {
 }
 
 function getUpdateInfo() {
-    const cranberriGuiVersion = "0.0.0" //TODO ...
+    const root = __dirname.substring(0, __dirname.length - "/src".length)
+    const packageDefinition = JSON.parse(fs.readFileSync(`${root}/package.json`, {encoding: "utf-8"}))
+    const cranberriGuiVersion = packageDefinition["version"]
 
     const paperFiles = fs.readdirSync(SERVER_ROOT).filter(file => /^paper-.+\.jar$/.test(file))
     if (paperFiles.length !== 1) console.error("Invalid paperFiles:", paperFiles)
