@@ -9,7 +9,8 @@ function getIsInstalled() {
 
 async function install() {
     await installPaper()
-    installPlugin()
+    await installPlugin()
+
     fs.writeFileSync(`${SERVER_ROOT}/eula.txt`, "eula=true\n")
     setup()
 
@@ -35,22 +36,43 @@ if (getIsInstalled()) setup()
 function installPaper() {
     return new Promise((resolve, _) => {
         fs.mkdirSync(SERVER_ROOT, { recursive: true })
+        downloadFile("https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar", `${SERVER_ROOT}/paper-1.19.4-550.jar`).then(() => resolve())
+    })
+}
 
-        const file = fs.createWriteStream(`${SERVER_ROOT}/paper-1.19.4-550.jar`)
-        https.get("https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar", function(response) {
-            response.pipe(file)
-            file.on("finish", () => {
-                file.close()
-                resolve()
+function installPlugin() {
+    return new Promise((resolve, _) => {
+        fs.mkdirSync(PLUGIN_ROOT);
+        https.get("https://api.github.com/repos/JupiterPi/cranberri/releases/latest", {
+            headers: { "User-Agent": "cranberri-gui" }
+        }, res => {
+            let data = []
+            res.on("data", chunk => data.push(chunk))
+            res.on("end", () => {
+                const release = JSON.parse(Buffer.concat(data).toString())
+                const fileName = release["assets"][0]["name"]
+                const downloadURL = release["assets"][0]["browser_download_url"]
+                downloadFile(downloadURL, `${PLUGIN_ROOT}/${fileName}`).then(() => resolve())
             })
         })
     })
 }
 
-function installPlugin() {
-    //TODO tmp!
-    fs.mkdirSync(PLUGIN_ROOT);
-    fs.writeFileSync(`${PLUGIN_ROOT}/cranberri-server-plugin-v0.0.2.jar`, "mocked");
+function downloadFile(url, file) {
+    return new Promise((resolve, _) => {
+        const stream = fs.createWriteStream(file)
+        https.get(url, function(response) {
+            if (response.statusCode === 302) {
+                downloadFile(response.headers.location, file).then(() => resolve())
+            } else {
+                response.pipe(stream)
+                stream.on("finish", () => {
+                    stream.close()
+                    resolve()
+                })
+            }
+        })
+    })
 }
 
 function getUpdateInfo() {

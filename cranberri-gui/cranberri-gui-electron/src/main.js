@@ -25,16 +25,3 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
-
-/* saved for later
-https.get("https://api.github.com/repos/JupiterPi/cranberri/releases/latest", {
-    headers: { "User-Agent": "Cranberri-GUI" }
-}, res => {
-    let data = []
-    res.on("data", chunk => data.push(chunk))
-    res.on("end", () => {
-        const release = JSON.parse(Buffer.concat(data).toString())
-        const downloadURL = release["assets"][0]["browser_download_url"]
-        console.log(downloadURL)
-    })
-})*/
