@@ -1,6 +1,7 @@
 const {BrowserWindow, shell} = require("electron");
 const path = require("path")
 const isDev = require("electron-is-dev")
+const {root} = require("./util");
 
 const windows = [];
 
@@ -14,13 +15,13 @@ function createWindow(route, width, height, resizable) {
         webPreferences: {
             preload: path.join(__dirname, "preload.js")
         },
+        icon: `${root}/assets/logo_icon.png`,
     })
 
     const appendPath = route ? `#/${route}` : ""
     if (isDev) {
         win.loadURL(`http://localhost:4200/${appendPath}`)
     } else {
-        const root = __dirname.substring(0, __dirname.length - "/src".length)
         win.loadURL(`file://${root}/dist/cranberri-gui-angular/index.html${appendPath}`)
     }
 
