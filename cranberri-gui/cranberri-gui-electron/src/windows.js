@@ -16,9 +16,13 @@ function createWindow(route, width, height, resizable) {
         },
     })
 
-    const appendPath = route ? `/${route}` : ""
-    if (isDev) win.loadURL(`http://localhost:4200${appendPath}`)
-    else win.loadFile("dist/cranberri-gui-angular/index.html") //TODO ...
+    const appendPath = route ? `#/${route}` : ""
+    if (isDev) {
+        win.loadURL(`http://localhost:4200/${appendPath}`)
+    } else {
+        const root = __dirname.substring(0, __dirname.length - "/src".length)
+        win.loadURL(`file://${root}/dist/cranberri-gui-angular/index.html${appendPath}`)
+    }
 
     win.setTitle("Cranberri")
 
