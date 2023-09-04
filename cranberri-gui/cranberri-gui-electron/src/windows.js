@@ -3,9 +3,15 @@ const path = require("path")
 const isDev = require("electron-is-dev")
 const {root} = require("./util");
 
-const windows = [];
+const windows = new Map()
 
 function createWindow(route, width, height, resizable) {
+    const foundWindow = windows.get(route)
+    if (foundWindow !== undefined) {
+        foundWindow.focus()
+        return
+    }
+
     const win = new BrowserWindow({
         title: "Cranberri",
         frame: false,
@@ -32,7 +38,11 @@ function createWindow(route, width, height, resizable) {
         return { action: 'deny' }
     })
 
-    windows.push(win)
+    win.on("closed", () => {
+        windows.delete(route)
+    })
+
+    windows.set(route, win)
 }
 
 function createMainWindow() {
