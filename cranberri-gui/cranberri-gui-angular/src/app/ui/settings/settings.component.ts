@@ -4,7 +4,7 @@ import {NeedsUpdateInfo, UpdateService} from "../../update.service";
 import {get, nonnull} from "../../util";
 
 export function openSettings() {
-  api.openWindow("settings", 500, 595, true);
+  api.openWindow("settings", 500, 400, true);
 }
 
 @Component({

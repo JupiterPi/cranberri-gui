@@ -101,7 +101,19 @@ input.rename-input {
 }
 
 ::-webkit-scrollbar {
-  width: 0;
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner {
+  background: $clr-background;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #676767;
+  &:hover {
+    background: #7e7e7e;
+  }
 }
 
 span {
@@ -120,4 +132,8 @@ a {
 
 .muted {
   color: $clr-muted;
+}
+
+.nowrap {
+  white-space: nowrap;
 }

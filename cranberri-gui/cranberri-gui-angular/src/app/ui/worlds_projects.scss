@@ -2,7 +2,7 @@
 
 .section-container {
   padding: 10px;
-  min-width: 350px;
+  min-width: 347px;
 
   .section-title-container {
     display: flex;
@@ -24,7 +24,7 @@
   flex-direction: column;
   gap: 10px;
 
-  height: calc(100vh - 106px);
+  height: calc(100vh - 113px);
   overflow-y: scroll;
 
   .list-entry-container {
