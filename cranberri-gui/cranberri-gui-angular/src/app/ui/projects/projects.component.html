@@ -14,6 +14,9 @@
         <button class="button" (click)="confirmCreateProject()">Create</button>
       </div>
     </div>
+    <div class="list-no-entry muted" *ngIf="projects.length == 0 && !showCreateProject">
+      No projects.
+    </div>
     <div class="list-entry-container" [class.selected]="projectSelectedName == project.name" *ngFor="let project of projects" (click)="selectProject(project)">
       <div class="world-name">
         {{project.name}}
