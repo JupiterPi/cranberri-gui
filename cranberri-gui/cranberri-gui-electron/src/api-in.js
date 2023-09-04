@@ -1,6 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 const child_process = require("child_process")
+const YAML = require("yaml")
 
 const updater = require("./updater")
 const {SERVER_ROOT, WORLDS_REGISTRY, WORLDS_DIR, ACTIVE_WORLD_DIRS, ACTIVE_WORLD_ROOT, ARCHIVED_WORLDS_DIR, PROJECTS_ROOT} = require("./paths")
@@ -52,7 +53,8 @@ module.exports = {
     },
     getProjects: () => {
         return fs.readdirSync(PROJECTS_ROOT).map(name => {
-            return {name, language: "kotlin"}
+            const projectInfo = YAML.parse(fs.readFileSync(`${PROJECTS_ROOT}/${name}/project.yaml`, "utf-8"))
+            return {name, language: projectInfo.language}
         })
     },
     openProjectsFolder: () => {
@@ -65,7 +67,8 @@ module.exports = {
     createProject: (name, language) => {
         fs.mkdirSync(`${PROJECTS_ROOT}/${name}/scripts`, { recursive: true })
         fs.writeFileSync(`${PROJECTS_ROOT}/${name}/scripts/my_script.kt`, SAMPLE_SCRIPT)
-        return { name, language: "kotlin" }
+        fs.writeFileSync(`${PROJECTS_ROOT}/${name}/project.yaml`, YAML.stringify({"projectType": "simple", "language": language}))
+        return {name, language}
     },
     startServer: (worldId) => {
         let world

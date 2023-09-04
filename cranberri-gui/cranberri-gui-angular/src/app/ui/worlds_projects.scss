@@ -37,7 +37,7 @@
     gap: 5px;
 
     @include highlightOnHover;
-    &:hover {
+    &:hover:not(.no-hover) {
       @include highlightOnHoverHover;
     }
 
@@ -59,10 +59,26 @@
       &#world-name-new-world {
         opacity: 65%;
       }
+
+      img {
+        height: 18px;
+      }
     }
   }
 
   .list-no-entry {
     padding: 10px;
+  }
+}
+
+.icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  height: 28px;
+
+  img {
+    height: 14px !important;
   }
 }

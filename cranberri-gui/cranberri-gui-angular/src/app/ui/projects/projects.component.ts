@@ -18,6 +18,7 @@ export class ProjectsComponent {
 
   showCreateProject = false;
   createProjectNameInput = "";
+  createProjectLanguage = "kotlin";
 
   selectProject(project: Project) {
     this.projectSelectedName = project.name;
@@ -27,11 +28,23 @@ export class ProjectsComponent {
   createProject() {
     this.showCreateProject = true;
     this.createProjectNameInput = "";
+    this.createProjectLanguage = "kotlin";
+  }
+  toggleCreateProjectLanguage() {
+    if (this.createProjectLanguage == "java") this.createProjectLanguage = "kotlin";
+    else if (this.createProjectLanguage == "kotlin") this.createProjectLanguage = "java";
+  }
+  confirmCreateProjectAllowed() {
+    let allowed = true;
+    this.projects.forEach(project => {
+      if (project.name == this.createProjectNameInput) allowed = false;
+    });
+    return allowed;
   }
   confirmCreateProject() {
     this.showCreateProject = false;
     if (this.createProjectNameInput == "") return;
-    api.createProject(this.createProjectNameInput.replace(" ", "_"), "kotlin")
+    api.createProject(this.createProjectNameInput.replace(" ", "_"), this.createProjectLanguage)
       .then(project => {
         this.projectSelectedName = project.name;
         return this.projects.unshift(project);
