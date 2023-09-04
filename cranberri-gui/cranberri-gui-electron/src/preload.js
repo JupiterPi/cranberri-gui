@@ -12,13 +12,13 @@ contextBridge.exposeInMainWorld("api", {
 
     install: () => ipcRenderer.invoke("api-install"),
     updatePlugin: () => ipcRenderer.invoke("api-updatePlugin"),
-    getWorlds: () => ipcRenderer.invoke("api-getWorlds", "teste1", "teste2"),
+    getWorlds: () => ipcRenderer.invoke("api-getWorlds"),
     getActiveWorldId: () => ipcRenderer.invoke("api-getActiveWorldId"),
     renameWorld: (id, name) => ipcRenderer.invoke("api-renameWorld", id, name),
     archiveWorld: (id) => ipcRenderer.invoke("api-archiveWorld", id),
     getProjects: () => ipcRenderer.invoke("api-getProjects"),
     openProjectsFolder: () => ipcRenderer.invoke("api-openProjectsFolder"),
     openProjectFolder: (projectName) => ipcRenderer.invoke("api-openProjectFolder", projectName),
-    createProject: (name, language) => ipcRenderer.invoke("api-createProject", name, language),
+    createProject: (name, type, language) => ipcRenderer.invoke("api-createProject", name, type, language),
     startServer: (worldId) => ipcRenderer.invoke("api-startServer", worldId),
 })

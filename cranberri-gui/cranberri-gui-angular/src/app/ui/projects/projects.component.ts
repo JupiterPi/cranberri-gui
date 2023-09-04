@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Project} from "../../api";
+import {Project, ProjectLanguage, ProjectType} from "../../api";
 
 @Component({
   selector: 'app-projects',
@@ -18,7 +18,8 @@ export class ProjectsComponent {
 
   showCreateProject = false;
   createProjectNameInput = "";
-  createProjectLanguage = "kotlin";
+  createProjectType: ProjectType = "simple";
+  createProjectLanguage: ProjectLanguage = "kotlin";
 
   selectProject(project: Project) {
     this.projectSelectedName = project.name;
@@ -29,6 +30,10 @@ export class ProjectsComponent {
     this.showCreateProject = true;
     this.createProjectNameInput = "";
     this.createProjectLanguage = "kotlin";
+  }
+  toggleCreateProjectType() {
+    if (this.createProjectType == "simple") this.createProjectType = "full";
+    else if (this.createProjectType == "full") this.createProjectType = "simple";
   }
   toggleCreateProjectLanguage() {
     if (this.createProjectLanguage == "java") this.createProjectLanguage = "kotlin";
@@ -44,10 +49,11 @@ export class ProjectsComponent {
   confirmCreateProject() {
     this.showCreateProject = false;
     if (this.createProjectNameInput == "") return;
-    api.createProject(this.createProjectNameInput.replace(" ", "_"), this.createProjectLanguage)
-      .then(project => {
-        this.projectSelectedName = project.name;
-        return this.projects.unshift(project);
+    const projectName = this.createProjectNameInput.replace(" ", "_");
+    api.createProject(projectName, this.createProjectType, this.createProjectLanguage)
+      .then(() => {
+        this.projectSelectedName = projectName;
+        return this.projects.unshift({name: projectName, type: this.createProjectType, language: this.createProjectLanguage});
       });
   }
 

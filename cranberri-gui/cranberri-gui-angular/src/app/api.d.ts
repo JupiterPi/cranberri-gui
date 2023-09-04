@@ -9,10 +9,12 @@ export type World = {
   name: string;
 }
 
+export type ProjectType = "simple" | "full"
 export type ProjectLanguage = "kotlin" | "java"
 
 export type Project = {
   name: string;
+  type: ProjectType;
   language: ProjectLanguage;
 }
 
@@ -37,7 +39,7 @@ declare global {
     getProjects: () => Promise<Project[]>,
     openProjectsFolder: () => Promise<void>,
     openProjectFolder: (projectName: String) => Promise<void>,
-    createProject: (name: string, language: string) => Promise<Project>,
+    createProject: (name: string, type: ProjectType, language: ProjectLanguage) => Promise<void>,
     startServer: (worldId: string | null) => Promise<World>,
   }
 }

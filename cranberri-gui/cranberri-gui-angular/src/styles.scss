@@ -87,7 +87,7 @@ input.rename-input {
   color: $clr-text;
   font-size: 100%;
   border-bottom: 1px solid $clr-border;
-  width: 200px;
+  width: 140px;
 }
 
 .label {
@@ -133,6 +133,10 @@ a {
 
 .muted {
   color: $clr-muted;
+
+  &.small {
+    font-size: 13px;
+  }
 }
 
 .nowrap {

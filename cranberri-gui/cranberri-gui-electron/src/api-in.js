@@ -54,7 +54,7 @@ module.exports = {
     getProjects: () => {
         return fs.readdirSync(PROJECTS_ROOT).map(name => {
             const projectInfo = YAML.parse(fs.readFileSync(`${PROJECTS_ROOT}/${name}/project.yaml`, "utf-8"))
-            return {name, language: projectInfo.language}
+            return {name, type: projectInfo.projectType, language: projectInfo.language}
         })
     },
     openProjectsFolder: () => {
@@ -64,11 +64,10 @@ module.exports = {
     openProjectFolder: (projectName) => {
         child_process.exec(`start "" "${path.resolve(path.join(PROJECTS_ROOT, projectName))}"`)
     },
-    createProject: (name, language) => {
+    createProject: (name, type, language) => {
         fs.mkdirSync(`${PROJECTS_ROOT}/${name}/scripts`, { recursive: true })
         fs.writeFileSync(`${PROJECTS_ROOT}/${name}/scripts/my_script.kt`, SAMPLE_SCRIPT)
-        fs.writeFileSync(`${PROJECTS_ROOT}/${name}/project.yaml`, YAML.stringify({"projectType": "simple", "language": language}))
-        return {name, language}
+        fs.writeFileSync(`${PROJECTS_ROOT}/${name}/project.yaml`, YAML.stringify({"projectType": type, "language": language}))
     },
     startServer: (worldId) => {
         let world
