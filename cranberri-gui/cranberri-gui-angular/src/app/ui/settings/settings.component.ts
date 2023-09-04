@@ -25,9 +25,9 @@ export class SettingsComponent {
     nonnull(updateService.isInstalled$).subscribe(isInstalled => this.isInstalled = isInstalled);
     nonnull(updateService.updateInfo$).subscribe(updateInfo => this.updateInfo = updateInfo);
 
-    nonnull(updateService.currentVersions$).subscribe(currentVersions => {
-      this.currentVersions = currentVersions;
-      get(updateService.updateInfo$).subscribe(updateInfo => {
+    nonnull(updateService.updateInfo$).subscribe(updateInfo => {
+      get(updateService.currentVersions$).subscribe(currentVersions => {
+        this.currentVersions = currentVersions;
         this.needsUpdate = updateService.needsUpdate(updateInfo, currentVersions);
       });
     });
@@ -36,6 +36,13 @@ export class SettingsComponent {
   install() {
     this.installLoading = true;
     api.install().then(() => {
+      this.installLoading = false;
+    });
+  }
+
+  updatePlugin() {
+    this.installLoading = true;
+    api.updatePlugin().then(() => {
       this.installLoading = false;
     });
   }

@@ -25,6 +25,7 @@ module.exports = {
     getUpdateInfo: () => updater.getUpdateInfo(),
 
     install: async () => await updater.install(),
+    updatePlugin: async () => await updater.updatePlugin(),
     getWorlds: () => readWorlds()["worlds"],
     getActiveWorldId: () => readWorlds()["activeWorldId"],
     renameWorld: (id, name) => {

@@ -29,6 +29,7 @@ declare global {
     getUpdateInfo: () => Promise<UpdateInfo>,
 
     install: () => Promise<void>,
+    updatePlugin: () => Promise<void>,
     getWorlds: () => Promise<World[]>,
     getActiveWorldId: () => Promise<string>,
     renameWorld: (id: string, name: string) => Promise<World[]>,

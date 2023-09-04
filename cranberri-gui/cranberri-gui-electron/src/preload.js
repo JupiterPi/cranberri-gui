@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld("api", {
     getUpdateInfo: () => ipcRenderer.invoke("api-getUpdateInfo"),
 
     install: () => ipcRenderer.invoke("api-install"),
+    updatePlugin: () => ipcRenderer.invoke("api-updatePlugin"),
     getWorlds: () => ipcRenderer.invoke("api-getWorlds", "teste1", "teste2"),
     getActiveWorldId: () => ipcRenderer.invoke("api-getActiveWorldId"),
     renameWorld: (id, name) => ipcRenderer.invoke("api-renameWorld", id, name),

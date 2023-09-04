@@ -8,7 +8,9 @@ function getIsInstalled() {
 }
 
 async function install() {
+    fs.mkdirSync(SERVER_ROOT, { recursive: true })
     await installPaper()
+    fs.mkdirSync(PLUGIN_ROOT)
     await installPlugin()
 
     fs.writeFileSync(`${SERVER_ROOT}/eula.txt`, "eula=true\n")
@@ -35,14 +37,12 @@ if (getIsInstalled()) setup()
 
 function installPaper() {
     return new Promise((resolve, _) => {
-        fs.mkdirSync(SERVER_ROOT, { recursive: true })
         downloadFile("https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar", `${SERVER_ROOT}/paper-1.19.4-550.jar`).then(() => resolve())
     })
 }
 
 function installPlugin() {
     return new Promise((resolve, _) => {
-        fs.mkdirSync(PLUGIN_ROOT);
         https.get("https://api.github.com/repos/JupiterPi/cranberri/releases/latest", {
             headers: { "User-Agent": "cranberri-gui" }
         }, res => {
@@ -54,6 +54,20 @@ function installPlugin() {
                 const downloadURL = release["assets"][0]["browser_download_url"]
                 downloadFile(downloadURL, `${PLUGIN_ROOT}/${fileName}`).then(() => resolve())
             })
+        })
+    })
+}
+
+function updatePlugin() {
+    return new Promise((resolve, _) => {
+        const pluginFiles = fs.readdirSync(PLUGIN_ROOT).filter(file => /^cranberri-server-plugin-v.+\.jar$/.test(file))
+        if (pluginFiles.length !== 1) console.error("Invalid pluginFiles:", pluginFiles)
+        const pluginFileName = pluginFiles[0]
+
+        fs.unlinkSync(`${PLUGIN_ROOT}/${pluginFileName}`)
+        installPlugin().then(() => {
+            resolve()
+            apiOut.handleUpdateInfo(getUpdateInfo())
         })
     })
 }
@@ -95,4 +109,5 @@ module.exports = {
     getIsInstalled,
     getUpdateInfo,
     install,
+    updatePlugin,
 }
