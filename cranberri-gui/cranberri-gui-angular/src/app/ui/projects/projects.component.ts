@@ -29,6 +29,7 @@ export class ProjectsComponent {
   createProject() {
     this.showCreateProject = true;
     this.createProjectNameInput = "";
+    this.createProjectType = "simple";
     this.createProjectLanguage = "kotlin";
   }
   toggleCreateProjectType() {

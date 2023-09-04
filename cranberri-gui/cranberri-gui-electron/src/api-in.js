@@ -5,14 +5,7 @@ const YAML = require("yaml")
 
 const updater = require("./updater")
 const {SERVER_ROOT, WORLDS_REGISTRY, WORLDS_DIR, ACTIVE_WORLD_DIRS, ACTIVE_WORLD_ROOT, ARCHIVED_WORLDS_DIR, PROJECTS_ROOT} = require("./paths")
-
-const SAMPLE_SCRIPT = `
-// sample script
-
-fun tick() {
-    writePin(2, readPin(1))
-}
-`
+const {root} = require("./util");
 
 function readWorlds() {
     return JSON.parse(fs.readFileSync(WORLDS_REGISTRY, "utf-8"))
@@ -66,8 +59,12 @@ module.exports = {
     },
     createProject: (name, type, language) => {
         fs.mkdirSync(`${PROJECTS_ROOT}/${name}/scripts`, { recursive: true })
-        fs.writeFileSync(`${PROJECTS_ROOT}/${name}/scripts/my_script.kt`, SAMPLE_SCRIPT)
         fs.writeFileSync(`${PROJECTS_ROOT}/${name}/project.yaml`, YAML.stringify({"projectType": type, "language": language}))
+
+        const templateDir = `${root}/project_templates/${language}_${type}`
+        for (const file of fs.readdirSync(templateDir)) {
+            fs.cpSync(`${templateDir}/${file}`, `${PROJECTS_ROOT}/${name}/${file}`, {recursive: true})
+        }
     },
     startServer: (worldId) => {
         let world
