@@ -32,9 +32,9 @@ module.exports = {
     },
     archiveWorld: (id) => {
         let worlds = readWorlds()
-        const worldName = worlds["worlds"].filter(world => world.id === id)[0].name.replace(" ", "_")
+        const worldName = worlds["worlds"].filter(world => world.id === id)[0].name.replaceAll(" ", "_")
         worlds["worlds"] = worlds["worlds"].filter(world => world.id !== id)
-        fs.mkdirSync(ARCHIVED_WORLDS_DIR, { recursive: true })
+        fs.mkdirSync(`${ARCHIVED_WORLDS_DIR}/${id}-${worldName}`, { recursive: true })
         if (id === worlds["activeWorldId"]) {
             ACTIVE_WORLD_DIRS.forEach(dir => fs.renameSync(`${ACTIVE_WORLD_ROOT}/${dir}`, `${ARCHIVED_WORLDS_DIR}/${id}-${worldName}/${dir}`))
             worlds["activeWorld"] = null
