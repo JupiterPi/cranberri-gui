@@ -2,6 +2,7 @@ const fs = require("fs")
 const https = require("https")
 const {SERVER_ROOT, WORLDS_REGISTRY, PROJECTS_ROOT, ARCHIVED_WORLDS_DIR, PLUGIN_ROOT} = require("./paths")
 const apiOut = require("./api-out")
+const {root} = require("./util");
 
 function getIsInstalled() {
     return fs.existsSync(`${SERVER_ROOT}/paper-1.19.4-550.jar`)
@@ -37,7 +38,11 @@ if (getIsInstalled()) setup()
 
 function installPaper() {
     return new Promise((resolve, _) => {
-        downloadFile("https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar", `${SERVER_ROOT}/paper-1.19.4-550.jar`).then(() => resolve())
+        downloadFile("https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar", `${SERVER_ROOT}/paper-1.19.4-550.jar`).then(() => {
+            fs.copyFileSync(`${root}/res/server.properties`, `${SERVER_ROOT}/server.properties`)
+            fs.copyFileSync(`${root}/res/server-icon.png`, `${SERVER_ROOT}/server-icon.png`)
+            resolve()
+        })
     })
 }
 
