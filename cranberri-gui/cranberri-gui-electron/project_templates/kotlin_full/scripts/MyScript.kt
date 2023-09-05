@@ -7,7 +7,10 @@ class MyScript {
     @Setup
     fun setup() {
         IO.log("started!")
+
         IO.log(MY_CONSTANT)
+        mySharedMethod()
+        
         IO.disableDebug()
     }
 
