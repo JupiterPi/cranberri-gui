@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {UpdateInfo} from "../../api";
+import {FolderId, UpdateInfo} from "../../api";
 import {NeedsUpdateInfo, UpdateService} from "../../update.service";
 import {get, nonnull} from "../../util";
 
@@ -45,5 +45,9 @@ export class SettingsComponent {
     api.updatePlugin().then(() => {
       this.installLoading = false;
     });
+  }
+
+  openOtherFolder(folderId: FolderId) {
+    api.openOtherFolder(folderId);
   }
 }

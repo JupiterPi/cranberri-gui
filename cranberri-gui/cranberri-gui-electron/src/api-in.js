@@ -57,6 +57,15 @@ module.exports = {
     openProjectFolder: (projectName) => {
         child_process.exec(`start "" "${path.resolve(path.join(PROJECTS_ROOT, projectName))}"`)
     },
+    openOtherFolder: (folderId) => {
+        let folder = ""
+        switch (folderId) {
+            case "server": folder = SERVER_ROOT; break
+            case "projects": folder = PROJECTS_ROOT; break
+            case "worlds_archive": folder = ARCHIVED_WORLDS_DIR; break
+        }
+        child_process.exec(`start "" "${path.resolve(folder)}"`)
+    },
     createProject: (name, type, language) => {
         fs.mkdirSync(`${PROJECTS_ROOT}/${name}/scripts`, { recursive: true })
         fs.writeFileSync(`${PROJECTS_ROOT}/${name}/project.yaml`, YAML.stringify({"projectType": type, "language": language}))

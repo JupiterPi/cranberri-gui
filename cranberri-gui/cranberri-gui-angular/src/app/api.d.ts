@@ -18,6 +18,8 @@ export type Project = {
   language: ProjectLanguage;
 }
 
+export type FolderId = "server" | "projects" | "worlds_archive";
+
 
 declare global {
   const api: {
@@ -39,6 +41,7 @@ declare global {
     getProjects: () => Promise<Project[]>,
     openProjectsFolder: () => Promise<void>,
     openProjectFolder: (projectName: String) => Promise<void>,
+    openOtherFolder: (folderId: FolderId) => Promise<void>,
     createProject: (name: string, type: ProjectType, language: ProjectLanguage) => Promise<void>,
     startServer: (worldId: string | null) => Promise<World>,
   }
