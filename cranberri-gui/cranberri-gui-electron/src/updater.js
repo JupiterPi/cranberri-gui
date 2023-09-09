@@ -39,7 +39,7 @@ if (getIsInstalled()) setup()
 function installPaper() {
     return new Promise((resolve, _) => {
         downloadFile("https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar", `${SERVER_ROOT}/paper-1.19.4-550.jar`).then(() => {
-            fs.copyFileSync(`${root}/res/server.properties`, `${SERVER_ROOT}/server.properties`)
+            if (!fs.existsSync(`${SERVER_ROOT}/server.properties`)) fs.copyFileSync(`${root}/res/server.properties`, `${SERVER_ROOT}/server.properties`)
             fs.copyFileSync(`${root}/res/server-icon.png`, `${SERVER_ROOT}/server-icon.png`)
             resolve()
         })
