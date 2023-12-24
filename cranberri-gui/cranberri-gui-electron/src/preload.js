@@ -20,6 +20,6 @@ contextBridge.exposeInMainWorld("api", {
     openProjectsFolder: () => ipcRenderer.invoke("api-openProjectsFolder"),
     openProjectFolder: (projectName) => ipcRenderer.invoke("api-openProjectFolder", projectName),
     openOtherFolder: (folderId) => ipcRenderer.invoke("api-openOtherFolder", folderId),
-    createProject: (name, type, language) => ipcRenderer.invoke("api-createProject", name, type, language),
+    createProject: (name, type, language, arduinoMode) => ipcRenderer.invoke("api-createProject", name, type, language, arduinoMode),
     startServer: (worldId) => ipcRenderer.invoke("api-startServer", worldId),
 })

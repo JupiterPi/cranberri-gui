@@ -10,11 +10,15 @@
   <div class="list-container">
     <div class="list-entry-container no-hover" *ngIf="showCreateProject">
       <div class="world-name">
-        <input class="input rename-input" [(ngModel)]="createProjectNameInput">
+        <input class="input rename-input" [(ngModel)]="createProjectNameInput" style="width: 105px !important;">
         <button class="button muted" (click)="toggleCreateProjectType()">{{createProjectType}}</button>
         <button class="button icon-button" (click)="toggleCreateProjectLanguage()">
           <img *ngIf="createProjectLanguage == 'kotlin'" src="assets/projects/kotlin_icon.png">
           <img *ngIf="createProjectLanguage == 'java'" src="assets/projects/java_icon.png">
+        </button>
+        <button class="button icon-button" (click)="toggleCreateProjectArduinoMode()">
+          <img *ngIf="!createProjectArduinoMode" src="assets/projects/standardMode_icon.png">
+          <img *ngIf="createProjectArduinoMode" src="assets/projects/arduinoMode_icon.png">
         </button>
         <button class="button" (click)="confirmCreateProject()" [disabled]="!confirmCreateProjectAllowed()">Create</button>
       </div>
@@ -25,8 +29,9 @@
     <div class="list-entry-container" [class.selected]="projectSelectedName == project.name" *ngFor="let project of projects" (click)="selectProject(project)">
       <div class="world-name">
         {{project.name}}
-        <img *ngIf="project.language == 'kotlin'" src="assets/projects/kotlin_icon.png">
         <img *ngIf="project.language == 'java'" src="assets/projects/java_icon.png">
+        <img *ngIf="project.language == 'kotlin'" src="assets/projects/kotlin_icon.png">
+        <img *ngIf="project.arduinoMode" src="assets/projects/arduinoMode_icon.png">
         <div>
           <span class="muted small">({{project.type}})</span>
         </div>

@@ -16,6 +16,7 @@ export type Project = {
   name: string;
   type: ProjectType;
   language: ProjectLanguage;
+  arduinoMode: boolean;
 }
 
 export type FolderId = "server" | "projects" | "worlds_archive";
@@ -42,7 +43,7 @@ declare global {
     openProjectsFolder: () => Promise<void>,
     openProjectFolder: (projectName: String) => Promise<void>,
     openOtherFolder: (folderId: FolderId) => Promise<void>,
-    createProject: (name: string, type: ProjectType, language: ProjectLanguage) => Promise<void>,
+    createProject: (name: string, type: ProjectType, language: ProjectLanguage, arduinoMode: boolean) => Promise<void>,
     startServer: (worldId: string | null) => Promise<World>,
   }
 }

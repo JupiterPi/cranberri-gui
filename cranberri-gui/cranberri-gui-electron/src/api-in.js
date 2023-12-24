@@ -47,7 +47,7 @@ module.exports = {
     getProjects: () => {
         return fs.readdirSync(PROJECTS_ROOT).map(name => {
             const projectInfo = YAML.parse(fs.readFileSync(`${PROJECTS_ROOT}/${name}/project.yaml`, "utf-8"))
-            return {name, type: projectInfo.projectType, language: projectInfo.language}
+            return {name, type: projectInfo.projectType, language: projectInfo.language, arduinoMode: projectInfo.arduinoMode ?? false}
         })
     },
     openProjectsFolder: () => {
@@ -66,11 +66,11 @@ module.exports = {
         }
         child_process.exec(`start "" "${path.resolve(folder)}"`)
     },
-    createProject: (name, type, language) => {
+    createProject: (name, type, language, arduinoMode) => {
         fs.mkdirSync(`${PROJECTS_ROOT}/${name}/scripts`, { recursive: true })
-        fs.writeFileSync(`${PROJECTS_ROOT}/${name}/project.yaml`, YAML.stringify({"projectType": type, "language": language}))
+        fs.writeFileSync(`${PROJECTS_ROOT}/${name}/project.yaml`, YAML.stringify(arduinoMode ? {"projectType": type, "language": language, "arduinoMode": true} : {"projectType": type, "language": language}))
 
-        const templateDir = `${root}/project_templates/${language}_${type}`
+        const templateDir = `${root}/project_templates/${language}_${type}_${arduinoMode ? "arduinoMode" : "standard"}`
         for (const file of fs.readdirSync(templateDir)) {
             fs.cpSync(`${templateDir}/${file}`, `${PROJECTS_ROOT}/${name}/${file}`, {recursive: true})
         }

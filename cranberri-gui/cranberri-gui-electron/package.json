@@ -1,6 +1,6 @@
 {
   "name": "cranberri-gui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Cranberri GUI",
   "main": "src/main.js",
   "scripts": {
